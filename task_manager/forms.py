@@ -38,3 +38,14 @@ class WorkerUpdateForm(forms.ModelForm):
                   "position"]
 
 
+class WorkerSearchUsernameForm(forms.Form):
+    username = forms.CharField(
+        max_length=255,
+        required=True,
+        label="",
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Search by username"
+            }
+        )
+    )

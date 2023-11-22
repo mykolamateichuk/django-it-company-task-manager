@@ -1,10 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+	<h3>Deadlines</h3>
+
+  <table class="table">
+    <tr>
+      <th>Deadline</th>
+      <th>Task name</th>
+      <th>Status</th>
+    </tr>
+    {% for task in tasks %}
+    	<tr>
+        <td>{{ task.deadline }}</td>
+        <td>{{ task.name }}</td>
+        <td>
+          <div class="rounded-circle"
+               style="width:20px; height:20px;
+               background: {% if task.is_completed %}green{% else %}red{% endif %}">
+          </div>
+        </td>
+      </tr>
+    {% endfor %}
+
+  </table>
+{% endblock %}

@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from task_manager.forms import TaskForm, RegisterWorkerForm, WorkerUpdateForm
+from task_manager.forms import TaskForm, RegisterWorkerForm, WorkerUpdateForm, WorkerSearchUsernameForm
 from task_manager.models import Task, Worker, Position
 
 
@@ -103,6 +103,22 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
     fields = "__all__"
     queryset = Worker.objects.select_related("position")
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(WorkerListView, self).get_context_data(**kwargs)
+
+        context["search_form"] = WorkerSearchUsernameForm()
+        return context
+
+    def get_queryset(self):
+        queryset = Worker.objects.all()
+        form = WorkerSearchUsernameForm(self.request.GET)
+
+        if form.is_valid():
+            return queryset.filter(
+                username__icontains=form.cleaned_data["username"]
+            )
+        return queryset
+
 
 def worker_detail_view(request: HttpRequest, pk: int) -> HttpResponse:
     worker = Worker.objects.select_related("position").get(pk=pk)
@@ -125,3 +141,19 @@ class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
     form_class = WorkerUpdateForm
     template_name = "task_manager/worker_update_form.html"
     success_url = reverse_lazy("task_manager:index")
+
+
+def deadlines_view(request: HttpRequest) -> HttpResponse:
+    user_tasks = Task.objects.filter(
+        assignees__username=request.user.username
+    )
+
+    ordered_tasks = user_tasks.order_by("-deadline")
+
+    context = {
+        "tasks": ordered_tasks
+    }
+
+    return render(request,
+                  "task_manager/deadlines.html",
+                  context=context)
