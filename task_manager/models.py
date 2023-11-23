@@ -62,5 +62,5 @@ class Task(models.Model):
 
     def __str__(self) -> str:
         return (f"{self.name}"
-                f"(Status:{"Completed" if self.is_completed else "Due"})"
+                f"(Status:{'Completed' if self.is_completed else 'Due'})"
                 f" - {self.priority}")
