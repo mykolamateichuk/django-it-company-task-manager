@@ -23,7 +23,11 @@ class Position(models.Model):
 
 
 class WorkerManager(UserManager):
-    def create_superuser(self, username, position, password=None, email=None):
+    def create_superuser(self,
+                         username: str,
+                         position: int,
+                         password: str = None,
+                         email: str = None):
         user = self.model(
             username=username,
             position_id=position,
