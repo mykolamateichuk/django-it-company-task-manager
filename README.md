@@ -10,9 +10,11 @@
     git clone https://github.com/mykolamateichuk/django-it-company-task-manager.git
     ```
 
-3) If you don't have **pip** installed  [install it here](https://pip.pypa.io/en/stable/installation/#).
+3) Open cloned folder in terminal
 
-4) Create and activate **Virtual environment**:
+4) If you don't have **pip** installed  [install it here](https://pip.pypa.io/en/stable/installation/#).
+
+5) Create and activate **Virtual environment**:
    
    **Windows**
    ```
@@ -32,13 +34,13 @@
    source venv/bin/activate
    ```
    
-5) Open cloned folder and install needed requirements using:
+6) Open cloned folder and install needed requirements using:
 
     ```
     pip install -r requirements.txt
     ```
 
-6) Make migrations and migrate:
+7) Make migrations and migrate:
 
    ```
    python manage.py makemigrations
@@ -47,17 +49,17 @@
    python manage.py migrate
    ```
 
-7) Install database fixture:
+8) Install database fixture:
 
    ```
    python manage.py loaddata db_fixture.json
    ```
 
-8) Run server:
+9) Run server:
    
    ```
    python manage.py runserver
    ```
 
-9) Go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+10) Go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
