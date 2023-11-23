@@ -4,13 +4,17 @@
   <div class="container-fluid rounded shadow-sm p-3 mb-5 bg-white rounded">
     <h2>Team</h2>
 
+    {% block search_form %}
+      {% include "includes/search_form.html" %}
+    {% endblock %}
+
     <table class="table">
       <tr>
         <th>Username</th>
         <th>Full name</th>
         <th>Position</th>
       </tr>
-      {% for worker in worker_list %}
+      {% for worker in workers %}
         <tr>
           <td>
             {% if worker.username != user.username %}

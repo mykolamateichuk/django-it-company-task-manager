@@ -1,15 +1,27 @@
 import datetime
+import random
+import json
+
+import requests
 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views import generic
 
-from task_manager.forms import TaskForm, RegisterWorkerForm, WorkerUpdateForm, WorkerSearchUsernameForm
-from task_manager.models import Task, Worker, Position
+from task_manager.forms import (
+    TaskForm,
+    RegisterWorkerForm,
+    WorkerUpdateForm,
+    WorkerFilterForm
+)
+
+
+from task_manager.models import Task, Worker
 
 
 @login_required
@@ -18,9 +30,17 @@ def index(request: HttpRequest) -> HttpResponse:
         assignees__username=request.user.username
     )
 
+    # API call to get a random motivational quote
+    url = "https://type.fit/api/quotes"
+    response = requests.get(url)
+    json_data = JsonResponse(response.json(), safe=False).getvalue()
+    data = json.loads(json_data)
+
     context = {
         "tasks": user_tasks,
-        "due_tasks": user_tasks.filter(is_completed=False).count()
+        "due_tasks": user_tasks.filter(is_completed=False).count(),
+        "current_time": timezone.now(),
+        "motivational_quote": data[random.randint(0, len(data)-1)]["text"]
     }
 
     return render(request,
@@ -102,22 +122,22 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
     model = Worker
     fields = "__all__"
     queryset = Worker.objects.select_related("position")
+    context_object_name = "workers"
+    form_class = WorkerFilterForm
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(WorkerListView, self).get_context_data(**kwargs)
 
-        context["search_form"] = WorkerSearchUsernameForm()
+        context["form"] = WorkerFilterForm
         return context
 
     def get_queryset(self):
-        queryset = Worker.objects.all()
-        form = WorkerSearchUsernameForm(self.request.GET)
+        position = self.request.GET.get('position')
 
-        if form.is_valid():
-            return queryset.filter(
-                username__icontains=form.cleaned_data["username"]
-            )
-        return queryset
+        if position:
+            self.queryset = self.queryset.filter(position=position)
+
+        return self.queryset
 
 
 def worker_detail_view(request: HttpRequest, pk: int) -> HttpResponse:

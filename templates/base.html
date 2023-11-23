@@ -18,6 +18,11 @@
 
 </head>
 <body>
+  <div class="page-header">
+    {% block header %}
+      {% include "includes/header.html" with time=current_time quote=motivational_quote%}
+    {% endblock %}
+  </div>
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-2">

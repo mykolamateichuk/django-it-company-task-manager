@@ -38,14 +38,19 @@ class WorkerUpdateForm(forms.ModelForm):
                   "position"]
 
 
-class WorkerSearchUsernameForm(forms.Form):
-    username = forms.CharField(
-        max_length=255,
-        required=True,
-        label="",
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "Search by username"
-            }
-        )
+POSITION_CHOICES = (
+    ("1", "Project Manager"),
+    ("2", "Developer"),
+    ("3", "Designer"),
+    ("4", "QA"),
+    ("5", "DevOps"),
+)
+
+
+class WorkerFilterForm(forms.Form):
+    position = forms.ChoiceField(
+        choices=POSITION_CHOICES,
+        required=False,
+        initial="",
+        label=""
     )
