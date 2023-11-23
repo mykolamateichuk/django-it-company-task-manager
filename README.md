@@ -1,7 +1,5 @@
 # IT Team Task Manager
 
----
-
 ## How to install
 
 
