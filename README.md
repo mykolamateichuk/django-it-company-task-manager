@@ -63,3 +63,37 @@
 
 10) Go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
+
+## How does it work
+
+This task manager is built for _a small team of developers who want to manage 
+their workflow properly_.
+
+To access the page first you want to [register](http://127.0.0.1:8000/create-account/) yourself.
+
+Then you will be redirected onto the [main page](http://127.0.0.1:8000/), where 
+you will see all of your **tasks**.
+
+Tasks that have not been completed yet have a red border, tasks that have been - green.
+Tasks have a detailed view that is accessible by clicking on the specific task card.
+In this detailed view you can see all information about the task and also **Update** it, 
+**Delete** it, or **Mark as Done**.
+
+Any member of the team can create tasks and assign them to other members or themselves.
+To create a task click on the green button in the top part of the screen, and 
+you will be redirected to the [task creation form](http://127.0.0.1:8000/create-task/).
+
+On the left of the page you will see a sidebar that can redirect you to 
+[Team](http://127.0.0.1:8000/worker-list/) page that has information about everyone
+on your team. To see their progress in solving tasks you can click on the username 
+of a specific user and see how many tasks are still due for them.
+
+Also you can filter the list of your teammates by their **position**.
+
+The second page where sidebar can take you to, is [Deadlines](http://127.0.0.1:8000/deadlines/).
+Deadlines is a page that has a compact view on all of your tasks and can help you 
+with deciding whick task to do next.
+
+## Database Schema
+
+![db_schema.png](db_schema.png)
