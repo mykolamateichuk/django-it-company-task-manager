@@ -67,7 +67,7 @@ class TaskCreateView(LoginRequiredMixin, generic.CreateView):
 @login_required
 def task_detail_view(request: HttpRequest, pk: int) -> HttpResponse:
     task = Task.objects.get(pk=pk)
-    current_date = datetime.date.today()
+    current_date = timezone.datetime.today()
     next_date = current_date + datetime.timedelta(days=1)
 
     context = {
