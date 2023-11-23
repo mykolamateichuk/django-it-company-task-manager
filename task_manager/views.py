@@ -97,10 +97,6 @@ class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
     success_url = reverse_lazy("task_manager:index")
 
 
-class WorkerCreateForm:
-    pass
-
-
 class WorkerCreateView(generic.CreateView):
     model = Worker
     form_class = RegisterWorkerForm
